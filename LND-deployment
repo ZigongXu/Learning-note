@@ -1,3 +1,12 @@
 
 1.  update node js to v14. For linux and mac
 https://phoenixnap.com/kb/update-node-js-version
+
+2. systemd " It provides a system and service manager that runs as PID 1 and starts the rest of the system"
+  here are two simple tutorial link:
+  https://wiki.archlinux.org/title/systemd
+  https://medium.com/@benmorel/creating-a-linux-service-with-systemd-611b5c8b91d6
+  general note: after read the second link and compared with the example by Johan, then the whole set up is quite simple. Use the template and update with right file path.
+  
+3. Nginx:
+  
