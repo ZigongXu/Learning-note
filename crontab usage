@@ -1,3 +1,4 @@
+20230503
 https://stackoverflow.com/questions/48339383/crontab-does-not-run-my-python-script
 
 https://www.jcchouinard.com/python-automation-with-cron-on-mac/
@@ -5,3 +6,80 @@ https://www.jcchouinard.com/python-automation-with-cron-on-mac/
 https://unix.stackexchange.com/questions/52330/how-to-redirect-output-to-a-file-from-within-cron
 
 https://crontab.guru/#20_*_*_*_*
+
+
+Above are severa link that I found could be useful.
+The example of crontab job:
+0 9 * * * /Path/to/pythonOrShell script >> f.log 2>&1   # only so the stdout and stderr could be correctly output to the f.log
+Then you need to allow the privacy requirement of the cronjob.
+
+
+>>> below is the code that I used to autodownload the picture from APVOD, and set it as the plot of my screen.
+```
+#!/usr/bin/env python3
+import os
+import requests
+import datetime
+import subprocess
+import matplotlib.pyplot as plt
+#import BeautifulSoup
+# Define the URL of the Astronomy Picture of the Day (APOD) website
+APOD_URL = "https://apod.nasa.gov/apod/"
+
+# Create a directory to store the downloaded images
+IMAGE_DIR = os.path.join(os.path.expanduser("~"), "Pictures", "APOD")
+os.makedirs(IMAGE_DIR, exist_ok=True)
+
+# Get the current date in YY-MM-DD format
+today = datetime.date.today().strftime("%y-%m-%d")
+print(datetime.datetime.now(), today)
+
+# Construct the URL of the APOD image for today
+image_url = APOD_URL + "ap" + today.replace("-", "") + ".html"
+
+print(image_url)
+# Send a request to the APOD website and get the HTML response
+response = requests.get(image_url)
+
+# Extract the URL of the APOD image from the HTML response
+image_start = response.text.find('href="image/') + len('href="image/')
+## extract the url of the picture today:
+# try-1
+image_suffix = ['.jpg"', '.png"', '.jpeg"']
+for suffix in image_suffix: 
+    image_end = response.text.find(suffix)
+    print(image_end)
+    if (image_end != -1) and (image_end > image_start) and (image_end < image_start + 100):
+	    break
+        
+print('The postion of the image start and end',image_end, image_start)
+image_path = response.text[image_start:image_end+4]
+#print(image_path)
+image_url = APOD_URL +'image/'+ image_path
+
+#print(image_url)
+
+# Download the image from the URL
+response = requests.get(image_url)
+ 
+# Save the image to the local directory
+image_path = os.path.join(IMAGE_DIR, today + ".jpg")
+with open(image_path, "wb") as f:
+    f.write(response.content)
+
+# Display the image
+# Set the downloaded image as the desktop background
+SCRIPT = """/usr/bin/osascript<<END
+tell application "Finder"
+set desktop picture to POSIX file "%s"
+end tell
+END"""
+subprocess.Popen(SCRIPT%image_path, shell=True)
+
+print('Here, the crontab has runned the code')
+
+
+
+```
+
+
