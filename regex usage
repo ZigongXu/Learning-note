@@ -1,0 +1,11 @@
+Link:
+
+\url{https://itnext.io/vscode-find-and-replace-regex-super-powers-c7f8be0fa80f}
+\url{https://regexone.com/lesson/conditionals}
+\url{https://www3.ntu.edu.sg/home/ehchua/programming/howto/Regexe.html}
+\url{https://stackoverflow.com/questions/3524993/regular-expression-that-checks-for-2-specific-words}
+Example 1
+
+find: \\ac[p,s]{0,1}\{(\w+)\}
+replace: $1
+# find \ac{EPHIN} -> EPHIN, \acp, \acs
