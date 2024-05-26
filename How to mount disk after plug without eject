@@ -1,1 +1,6 @@
 https://apple.stackexchange.com/questions/235309/external-drive-does-not-mount-after-plug-off-without-eject
+
+ps aux | grep fsck
+sudo kill -9 1536
+
+diskutil unmountDisk force /Volumes/DISK_NAME
